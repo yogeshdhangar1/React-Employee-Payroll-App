@@ -42,7 +42,7 @@ class HomePage extends React.Component {
                         <th>Start Date</th>
                         <th>Actions</th>
                     </tr>
-                    <tr> 
+                    {/* <tr> 
                         <td><img class="profile" alt="" src="/assets/profile-images/pic2.png"/>
                         </td> 
                         <td>Narayan Mahadevan</td>
@@ -56,7 +56,7 @@ class HomePage extends React.Component {
                            <img id="1" onclick="remove(this)" alt="delete" src="../assets/icons/download.png"/>
                            <img id="1" alt="edit" onclick="update(this)" src="./assets/icons/create-black-18dp.svg"/> 
                         </td> 
-                    </tr>  
+                    </tr>   */}
                 </table>
             </div>
             </body>
@@ -64,7 +64,6 @@ class HomePage extends React.Component {
     ); }
 }
     export default HomePage;
-
     /* <h1>
         <Link to="/home" >Home </Link>  |
         <Link to="/bridgelabz">Bridgelabz </Link>

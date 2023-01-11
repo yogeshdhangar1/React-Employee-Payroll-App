@@ -5,7 +5,7 @@ import Pic3 from './assets/profile-images/pic3.png'
 import Pic4 from './assets/profile-images/pic4.png'
 import React, { useState, useEffect } from "react";
 import logo from './assets/profile-images/logo.png';
-
+import EmployeeService from '../../service/EmployeeService';
 const FormContentPage = () => {
   let initialValue = {
     name: "",
@@ -59,7 +59,7 @@ const FormContentPage = () => {
 
     let object = {
       name: formValue.name,
-      departments: formValue.departmentValue,
+      department: formValue.departmentValue,
       gender: formValue.gender,
       salary: formValue.salary,
       startDate: `${formValue.day} ${formValue.month} ${formValue.year}`,
@@ -67,7 +67,14 @@ const FormContentPage = () => {
       profilePic: formValue.profilePic,
     };
 
-    console.log(object);
+    EmployeeService.addEmployeePayRollData(object)
+    .then((respone) => {
+      alert("Employee Data Added Successfully");
+      console.log(respone.data.data);
+    })
+    .catch((error) => {
+      alert("Something went wrong", error);
+    });
   };
 
   const reset = () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import Form from './components/Form';
 import { Route,Routes,Link } from 'react-router-dom';
 import HomePage from './components/FormComponents/HomePage'
-
 class App extends React.Component {
 
   render(){
