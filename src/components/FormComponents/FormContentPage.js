@@ -6,6 +6,8 @@ import Pic4 from './assets/profile-images/pic4.png'
 import React, { useState, useEffect } from "react";
 import logo from './assets/profile-images/logo.png';
 import EmployeeService from '../../service/EmployeeService';
+import { useParams,Link } from 'react-router-dom';
+
 const FormContentPage = () => {
   let initialValue = {
     name: "",
@@ -24,21 +26,54 @@ const FormContentPage = () => {
     year: "",
     startDate: "",
     notes: "",
-    id: "",
+    employeeId: "",
     profilePic: "",
+    isUpdate:false
   };
 
   const [formValue, setForm] = useState(initialValue);
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.id) {
+      getDataById(params.id);
+    }
+  }, [params.id]);
+
+  const getDataById = (id) => {
+    EmployeeService.getEmployeeById(id)
+      .then((response) => {
+        let object = response.data.data;
+        setData(object);
+      })
+      .catch((err) => {
+        alert("err is ", err);
+      });
+  };
+
+  const setData = (obj) => {
+    let array = obj.startDate;
+    console.log(array);
+    console.log(obj);
+
+    setForm({
+      ...formValue,
+      ...obj,
+      id: obj.employeeId,
+      name: obj.name,
+      departmentValue: obj.departments,
+      isUpdate: true,
+      day: array[0] + array[1],
+      month: array[3] + array[4] + array[5],
+      year: array[7] + array[8] + array[9] + array[10],
+      notes: obj.note,
+    });
+  };
 
   const changeValue = (event) => {
-    console.log(event.target);
     console.log(event.target.name);
     setForm({ ...formValue, [event.target.name]: event.target.value });
   };
-
-  useEffect(() => {
-    console.log("Useeffect()");
-  }, []);
 
   const onCheckChange = (name) => {
     let index = formValue.departmentValue.indexOf(name);
@@ -59,7 +94,7 @@ const FormContentPage = () => {
 
     let object = {
       name: formValue.name,
-      department: formValue.departmentValue,
+      departments: formValue.departmentValue,
       gender: formValue.gender,
       salary: formValue.salary,
       startDate: `${formValue.day} ${formValue.month} ${formValue.year}`,
@@ -67,6 +102,25 @@ const FormContentPage = () => {
       profilePic: formValue.profilePic,
     };
 
+    console.log(object);
+
+    if(formValue.isUpdate){
+      var answer = windom.confirm(
+        "Data Once Modified can not be Restored ! Do You Wish To Continue"
+      );
+      if(answer === true){
+      EmployeeService.updateEmployeePayRollData(param.id,object)
+      .then((data) =>{
+        console.log(data.data.data)
+        alert("Data Update Succesfully")
+      })
+      .catch((err)=>{
+        console.log("WARNING !! Error Updating Tha Data",err)
+      })
+      }else{
+        window.location.reload();
+      }
+    }
     EmployeeService.addEmployeePayRollData(object)
     .then((respone) => {
       alert("Employee Data Added Successfully");
@@ -76,6 +130,7 @@ const FormContentPage = () => {
       alert("Something went wrong", error);
     });
   };
+
 
   const reset = () => {
     setForm({

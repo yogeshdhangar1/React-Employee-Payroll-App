@@ -1,20 +1,18 @@
-import React from 'react';
-import Form from './components/Form';
-import { Route,Routes,Link } from 'react-router-dom';
+import React from 'react'
+
+import { Route,Routes } from 'react-router-dom';
 import HomePage from './components/FormComponents/HomePage'
+import FormContentPage from './components/FormComponents/FormContentPage';
 class App extends React.Component {
 
   render(){
   return (
     <div>
         <Routes>
-            <Route path='/home' element={<HomePage/>}/>
-            <Route path='/form' element={<Form/>}/>
+            <Route path='/home' element={<FormContentPage/>}/>
+            <Route path='/' element={<HomePage/>}/>
+            <Route path="/Employeeform/:id" element={<FormContentPage />}></Route>
         </Routes>
-        <h2>
-          <Link to="/home" >Home </Link>  |
-          <Link to="/form">Form </Link>
-        </h2>
       </div>
       );
 }
